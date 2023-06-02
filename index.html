@@ -1,21 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script defer src="script.js"></script>
-    <link rel="stylesheet" href="styles.css" />
-    <title>PuppyBowl</title>
-  </head>
-  <body>
-    <!-- form to add new players -->
-    <div id="new-player-form"></div>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="styles.css" />
+  <title>PuppyBowl</title>
 
-    <!-- container for all players -->
-    <div id="all-players-container"></div>
+</head>
+<body>
+  <!-- form to add new players -->
+  <div id="new-player-form"></div>
 
-    <!-- import JavaScript -->
-    <script src="./script.js"></script>
-  </body>
+  <!-- container for all players -->
+  <div id="all-players-container">
+    <div class="card-container">
+      <div class="card">
+        <div class="card-face card-front">
+          <!-- Front of the card -->
+          <h2>Player</h2>
+          <p>Position:</p>
+          <p>Team:</p>
+          <p>Number:</p>
+        </div>
+        <div class="card-face card-back">
+          <!-- Back of the card -->
+          <h2>Player</h2>
+          <p>Height:</p>
+          <p>Weight:lbs</p>
+          <p>Experience:</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- import JavaScript -->
+  <script src="script.js"></script>
+</body>
 </html>
+
