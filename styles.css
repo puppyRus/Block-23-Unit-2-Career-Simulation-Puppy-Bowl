@@ -31,12 +31,40 @@
 }
 
 .card-front {
-  background-color: #f2f2f2;
-  color: #000;
+    background: repeating-linear-gradient(
+        -45deg,
+        #FB4F14,
+        #FFA500 10%,
+        #000000 10%,
+        #000000 20%
+      );
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      border-radius: 10px;
+      color: whitesmoke;
+
 }
+
+.card-front img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    border: 2px solid white; /* Add a white border around the image */
+}   
+
+
 
 .card-back {
   background-color: #d9d9d9;
   color: #000;
   transform: rotateY(180deg);
+  border: 12px solid;
+  border-image: linear-gradient(to right, #FB4F14, #FFA500, #000000,#FB4F14) 1;
+  border-radius: 10px;
+  position: relative;
+  background-size: 20px 20px;
 }
