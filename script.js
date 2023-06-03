@@ -1,10 +1,13 @@
+//import our Card class from our module
+import Card from "./cardClass.js";
+
 const playerContainer = document.getElementById("all-players-container");
 const newPlayerFormContainer = document.getElementById("new-player-form");
 
 // Add your cohort name to the cohortName variable below, replacing the 'COHORT-NAME' placeholder
-const cohortName = "YOUR COHORT NAME HERE";
+const cohortName = "2302-acc-pt-d";
 // Use the APIURL variable for fetch requests
-const APIURL = `https://fsa-puppy-bowl.herokuapp.com/api/${cohortName}/`;
+const APIURL = `https://fsa-puppy-bowl.herokuapp.com/api/${cohortName}`;
 
 /**
  * It fetches all players from the API and returns them
@@ -12,6 +15,11 @@ const APIURL = `https://fsa-puppy-bowl.herokuapp.com/api/${cohortName}/`;
  */
 const fetchAllPlayers = async () => {
   try {
+      const response = await fetch(`${APIURL}/players`);
+      console.log("response", response);
+      const puppies = await response.json();
+      console.log("puppies", puppies)
+      return puppies.data;
   } catch (err) {
     console.error("Uh oh, trouble fetching players!", err);
   }
@@ -63,6 +71,14 @@ const removePlayer = async (playerId) => {
  */
 const renderAllPlayers = (playerList) => {
   try {
+    //for each element on the array we use the class to
+    //create a new card and use the method to render the puppies
+      playerList.forEach(element => {
+      //create a card
+      const puppyCard = new Card(element.id, element.name, element.breed, element.imageUrl, element.createdAt);
+      console.log("Puppy html",puppyCard.createCard());
+      playerContainer.appendChild(puppyCard.createCard());
+    });
   } catch (err) {
     console.error("Uh oh, trouble rendering players!", err);
   }
@@ -80,10 +96,11 @@ const renderNewPlayerForm = () => {
 };
 
 const init = async () => {
-  const players = await fetchAllPlayers();
-  renderAllPlayers(players);
-
-  renderNewPlayerForm();
+  //fetch all players
+  const puppies = await fetchAllPlayers();
+  console.log("puppies", puppies.players);
+  //render all players
+  renderAllPlayers(puppies.players);
 };
 
 init();
