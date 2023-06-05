@@ -20,6 +20,7 @@ const fetchAllPlayers = async () => {
       const puppies = await response.json();
       console.log("puppies", puppies)
       return puppies.data;
+
   } catch (err) {
     console.error("Uh oh, trouble fetching players!", err);
   }
@@ -73,10 +74,17 @@ const renderAllPlayers = (playerList) => {
   try {
     //for each element on the array we use the class to
     //create a new card and use the method to render the puppies
-      playerList.forEach(element => {
+    playerList.forEach((element) => {
       //create a card
-      const puppyCard = new Card(element.id, element.name, element.breed, element.imageUrl, element.createdAt);
-      console.log("Puppy html",puppyCard.createCard());
+      const puppyCard = new Card(
+        element.id,
+        element.name,
+        element.breed,
+        element.imageUrl,
+        element.createdAt
+      );
+      console.log("Puppy html", puppyCard.createCard());
+
       playerContainer.appendChild(puppyCard.createCard());
     });
   } catch (err) {
@@ -90,6 +98,42 @@ const renderAllPlayers = (playerList) => {
  */
 const renderNewPlayerForm = () => {
   try {
+    const formHTML = `
+      <h2>Add a New Player</h2>
+      <form id="new-player-form">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required autocomplete="on">
+        <label for="breed">Breed:</label>
+        <input type="text" id="breed" required autocomplete="on">
+        <label for="status">Status:</label>
+        <input type="text" id="status" required autocomplete="on">
+        <label for="imageUrl">Image URL:</label>
+        <input type="text" id="imageUrl" required autocomplete="on">
+        <button type="submit">Add Player</button>
+      </form>
+    `;
+    newPlayerFormContainer.innerHTML = formHTML;
+
+    const form = newPlayerFormContainer.querySelector("#new-player-form");
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const name = document.getElementById("name").value;
+      const breed = document.getElementById("breed").value;
+      const status = document.getElementById("status").value;
+      const imageUrl = document.getElementById("imageUrl").value;
+      const newPlayerObj = {
+        name,
+        breed,
+        status,
+        imageUrl,
+      };
+      await addNewPlayer(newPlayerObj);
+      // Refresh player list
+      const players = await fetchAllPlayers();
+      renderAllPlayers(players);
+      // Clear form fields
+      form.reset();
+    });
   } catch (err) {
     console.error("Uh oh, trouble rendering the new player form!", err);
   }
