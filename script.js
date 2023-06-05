@@ -15,11 +15,12 @@ const APIURL = `https://fsa-puppy-bowl.herokuapp.com/api/${cohortName}`;
  */
 const fetchAllPlayers = async () => {
   try {
-    const response = await fetch(`${APIURL}/players`);
-    console.log("response", response);
-    const puppies = await response.json();
-    console.log("puppies", puppies);
-    return puppies.data;
+      const response = await fetch(`${APIURL}/players`);
+      console.log("response", response);
+      const puppies = await response.json();
+      console.log("puppies", puppies)
+      return puppies.data;
+
   } catch (err) {
     console.error("Uh oh, trouble fetching players!", err);
   }
@@ -83,6 +84,7 @@ const renderAllPlayers = (playerList) => {
         element.createdAt
       );
       console.log("Puppy html", puppyCard.createCard());
+
       playerContainer.appendChild(puppyCard.createCard());
     });
   } catch (err) {
