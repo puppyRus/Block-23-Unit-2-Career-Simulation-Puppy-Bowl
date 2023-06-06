@@ -2,7 +2,7 @@
 import Card from "./cardClass.js";
 
 const playerContainer = document.getElementById("all-players-container");
-const newPlayerFormContainer = document.getElementById("new-player-form");
+
 
 // Add your cohort name to the cohortName variable below, replacing the 'COHORT-NAME' placeholder
 const cohortName = "2302-acc-pt-d";
@@ -96,11 +96,11 @@ const renderAllPlayers = (playerList) => {
  * It renders a form to the DOM, and when the form is submitted, it adds a new player to the database,
  * fetches all players from the database, and renders them to the DOM.
  */
-const renderNewPlayerForm = () => {
+const renderNewPlayerForm = (e) => {
   try {
     const formHTML = `
-      <h2>Add a New Player</h2>
       <form id="new-player-form">
+        <h2>Add a New Player</h2>
         <label for="name">Name:</label>
         <input type="text" id="name" required autocomplete="on">
         <label for="breed">Breed:</label>
@@ -112,9 +112,16 @@ const renderNewPlayerForm = () => {
         <button type="submit">Add Player</button>
       </form>
     `;
-    newPlayerFormContainer.innerHTML = formHTML;
 
-    const form = newPlayerFormContainer.querySelector("#new-player-form");
+    e.innerHTML = `
+    <img src="/pngegg.png" alt="add sign" width="50px">
+    `
+    e.addEventListener('click',()=>{
+      console.log("add a new player")
+      e.innerHTML = formHTML;
+    })
+
+    const form = e.querySelector("#new-player-form");
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
       const name = document.getElementById("name").value;
@@ -140,11 +147,16 @@ const renderNewPlayerForm = () => {
 };
 
 const init = async () => {
-  //fetch all players
-  const puppies = await fetchAllPlayers();
-  console.log("puppies", puppies.players);
+  //render form
+  const newPlayerFormContainer = document.createElement("div");//create a new element for the form
+  newPlayerFormContainer.setAttribute("id", "new-player-form");//set id
+  playerContainer.appendChild(newPlayerFormContainer);//append it to the player container
+  renderNewPlayerForm(newPlayerFormContainer); //render form
+  
   //render all players
-  renderAllPlayers(puppies.players);
+  const puppies = await fetchAllPlayers(); //fetch all players
+  console.log("puppies", puppies.players);
+  renderAllPlayers(puppies.players); //render them
 };
 
 init();
