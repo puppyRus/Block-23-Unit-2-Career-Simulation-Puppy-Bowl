@@ -70,21 +70,37 @@ const removePlayer = async (playerId) => {
  */
 const renderAllPlayers = (playerList) => {
   try {
-    //for each element on the array we use the class to
-    //create a new card and use the method to render the puppies
-    playerList.forEach((element) => {
-      //create a card
-      const puppyCard = new Card(
-        element.id,
-        element.name,
-        element.breed,
-        element.imageUrl,
-        element.createdAt
-      );
-      console.log("Puppy html", puppyCard.createCard());
+    //render all cards
+    console.log("players list:",playerList);
+    const players = playerList.players;
+    console.log("players:", players);
 
-      playerContainer.appendChild(puppyCard.createCard());
+    //we loop thru each player and get their info
+    players.forEach(e => {
+      console.log("hello", e.name);
+      const card = document.createElement("div");
+      card.setAttribute("class","flip-card");//set class
+      card.setAttribute("id",`card-${e.id}`);//set id
+      const flipCard = `
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="${e.imageUrl}" alt="${e.breed} puppy" style="width:300px;height:400px;">
+          </div>
+          <div class="flip-card-back">
+            <h1>${e.name}</h1> 
+            <p>${e.breed}</p> 
+            <p>${e.status}</p>
+            <p>${e.createdAt}</p>
+            <button id="details-button">Details</button>
+            <button id="delete-button">Delete</button>
+          </div>
+        </div>
+      `
+      card.innerHTML = flipCard;
+      playerContainer.appendChild(card);
+
     });
+
   } catch (err) {
     console.error("Uh oh, trouble rendering players!", err);
   }
@@ -147,7 +163,7 @@ const init = async () => {
   //render all players
   const puppies = await fetchAllPlayers(); //fetch all players
   console.log("puppies", puppies.players);
-  renderAllPlayers(puppies.players); //render them
+  renderAllPlayers(puppies); //render them
 };
 
 init();
