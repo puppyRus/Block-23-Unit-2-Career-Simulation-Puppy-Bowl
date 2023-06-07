@@ -1,8 +1,21 @@
+/*Table of Content
+1.- Body
+2.- Players Container
+3.- Form
+4.- Cards
+5.- Player details
+6.- imges
+7.- buttons
+
+*/
+
+/*1.- Body*/
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
+
 .card-container {
   perspective: 1000px;
   width: 300px;
@@ -68,3 +81,22 @@
   position: relative;
   background-size: 20px 20px;
 }
+
+/*2.- Players Container*/
+div#all-players-container{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: 10px;
+}
+/*3.- Forms*/
+
+/*4.- Cards*/
+
+/*5.- Player details*/
+
+/*6.- images*/
+
+/*7.- buttons*/
+

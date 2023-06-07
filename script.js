@@ -1,10 +1,12 @@
+//import our Card class from our module
+import Card from "./cardClass.js";
+
 const playerContainer = document.getElementById("all-players-container");
-const newPlayerFormContainer = document.getElementById("new-player-form");
 
 // Add your cohort name to the cohortName variable below, replacing the 'COHORT-NAME' placeholder
-const cohortName = "YOUR COHORT NAME HERE";
+const cohortName = "2302-acc-pt-d";
 // Use the APIURL variable for fetch requests
-const APIURL = `https://fsa-puppy-bowl.herokuapp.com/api/${cohortName}/`;
+const APIURL = `https://fsa-puppy-bowl.herokuapp.com/api/${cohortName}`;
 
 /**
  * It fetches all players from the API and returns them
@@ -12,6 +14,11 @@ const APIURL = `https://fsa-puppy-bowl.herokuapp.com/api/${cohortName}/`;
  */
 const fetchAllPlayers = async () => {
   try {
+    const response = await fetch(`${APIURL}/players`);
+    console.log("response", response);
+    const puppies = await response.json();
+    console.log("puppies", puppies);
+    return puppies.data;
   } catch (err) {
     console.error("Uh oh, trouble fetching players!", err);
   }
@@ -63,6 +70,37 @@ const removePlayer = async (playerId) => {
  */
 const renderAllPlayers = (playerList) => {
   try {
+    //render all cards
+    console.log("players list:",playerList);
+    const players = playerList.players;
+    console.log("players:", players);
+
+    //we loop thru each player and get their info
+    players.forEach(e => {
+      console.log("hello", e.name);
+      const card = document.createElement("div");
+      card.setAttribute("class","flip-card");//set class
+      card.setAttribute("id",`card-${e.id}`);//set id
+      const flipCard = `
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="${e.imageUrl}" alt="${e.breed} puppy" style="width:300px;height:400px;">
+          </div>
+          <div class="flip-card-back">
+            <h1>${e.name}</h1> 
+            <p>${e.breed}</p> 
+            <p>${e.status}</p>
+            <p>${e.createdAt}</p>
+            <button id="details-button">Details</button>
+            <button id="delete-button">Delete</button>
+          </div>
+        </div>
+      `
+      card.innerHTML = flipCard;
+      playerContainer.appendChild(card);
+
+    });
+
   } catch (err) {
     console.error("Uh oh, trouble rendering players!", err);
   }
@@ -74,16 +112,58 @@ const renderAllPlayers = (playerList) => {
  */
 const renderNewPlayerForm = () => {
   try {
+    const formHTML = `
+      <h2>Add a New Player</h2>
+      <form id="new-player-form">
+        <label for="name">Name:</label>
+        <input type="text" id="name" required autocomplete="on">
+        <label for="breed">Breed:</label>
+        <input type="text" id="breed" required autocomplete="on">
+        <label for="status">Status:</label>
+        <input type="text" id="status" required autocomplete="on">
+        <label for="imageUrl">Image URL:</label>
+        <input type="text" id="imageUrl" required autocomplete="on">
+        <button type="submit">Add Player</button>
+      </form>
+    `;
+    newPlayerFormContainer.innerHTML = formHTML;
+
+    const form = newPlayerFormContainer.querySelector("#new-player-form");
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const name = document.getElementById("name").value;
+      const breed = document.getElementById("breed").value;
+      const status = document.getElementById("status").value;
+      const imageUrl = document.getElementById("imageUrl").value;
+      const newPlayerObj = {
+        name,
+        breed,
+        status,
+        imageUrl,
+      };
+      await addNewPlayer(newPlayerObj);
+      // Refresh player list
+      const players = await fetchAllPlayers();
+      renderAllPlayers(players);
+      // Clear form fields
+      form.reset();
+    });
   } catch (err) {
     console.error("Uh oh, trouble rendering the new player form!", err);
   }
 };
 
 const init = async () => {
-  const players = await fetchAllPlayers();
-  renderAllPlayers(players);
+  //render form
+  const newPlayerFormContainer = document.createElement("div"); //create a new element for the form
+  newPlayerFormContainer.setAttribute("id", "new-player-form"); //set id
+  playerContainer.appendChild(newPlayerFormContainer); //append it to the player container
+  renderNewPlayerForm(newPlayerFormContainer); //render form
 
-  renderNewPlayerForm();
+  //render all players
+  const puppies = await fetchAllPlayers(); //fetch all players
+  console.log("puppies", puppies.players);
+  renderAllPlayers(puppies); //render them
 };
 
 init();
