@@ -2,6 +2,7 @@
 import Card from "./cardClass.js";
 
 const playerContainer = document.getElementById("all-players-container");
+const newPlayerFormContainer = document.getElementById("new-player-form");
 
 // Add your cohort name to the cohortName variable below, replacing the 'COHORT-NAME' placeholder
 const cohortName = "2302-acc-pt-d";
@@ -70,37 +71,21 @@ const removePlayer = async (playerId) => {
  */
 const renderAllPlayers = (playerList) => {
   try {
-    //render all cards
-    console.log("players list:",playerList);
-    const players = playerList.players;
-    console.log("players:", players);
+    //for each element on the array we use the class to
+    //create a new card and use the method to render the puppies
+    playerList.forEach((element) => {
+      //create a card
+      const puppyCard = new Card(
+        element.id,
+        element.name,
+        element.breed,
+        element.imageUrl,
+        element.createdAt
+      );
+      console.log("Puppy html", puppyCard.createCard());
 
-    //we loop thru each player and get their info
-    players.forEach(e => {
-      console.log("hello", e.name);
-      const card = document.createElement("div");
-      card.setAttribute("class","flip-card");//set class
-      card.setAttribute("id",`card-${e.id}`);//set id
-      const flipCard = `
-        <div class="flip-card-inner">
-          <div class="flip-card-front">
-            <img src="${e.imageUrl}" alt="${e.breed} puppy" style="width:300px;height:400px;">
-          </div>
-          <div class="flip-card-back">
-            <h1>${e.name}</h1> 
-            <p>${e.breed}</p> 
-            <p>${e.status}</p>
-            <p>${e.createdAt}</p>
-            <button id="details-button">Details</button>
-            <button id="delete-button">Delete</button>
-          </div>
-        </div>
-      `
-      card.innerHTML = flipCard;
-      playerContainer.appendChild(card);
-
+      playerContainer.appendChild(puppyCard.createCard());
     });
-
   } catch (err) {
     console.error("Uh oh, trouble rendering players!", err);
   }
@@ -110,47 +95,44 @@ const renderAllPlayers = (playerList) => {
  * It renders a form to the DOM, and when the form is submitted, it adds a new player to the database,
  * fetches all players from the database, and renders them to the DOM.
  */
-const renderNewPlayerForm = () => {
-  try {
-    const formHTML = `
-      <h2>Add a New Player</h2>
-      <form id="new-player-form">
-        <label for="name">Name:</label>
-        <input type="text" id="name" required autocomplete="on">
-        <label for="breed">Breed:</label>
-        <input type="text" id="breed" required autocomplete="on">
-        <label for="status">Status:</label>
-        <input type="text" id="status" required autocomplete="on">
-        <label for="imageUrl">Image URL:</label>
-        <input type="text" id="imageUrl" required autocomplete="on">
-        <button type="submit">Add Player</button>
-      </form>
-    `;
-    newPlayerFormContainer.innerHTML = formHTML;
+const renderNewPlayerForm = (containerId) => {
+  const container = document.getElementById(containerId);
 
-    const form = newPlayerFormContainer.querySelector("#new-player-form");
-    form.addEventListener("submit", async (event) => {
-      event.preventDefault();
-      const name = document.getElementById("name").value;
-      const breed = document.getElementById("breed").value;
-      const status = document.getElementById("status").value;
-      const imageUrl = document.getElementById("imageUrl").value;
-      const newPlayerObj = {
-        name,
-        breed,
-        status,
-        imageUrl,
-      };
-      await addNewPlayer(newPlayerObj);
-      // Refresh player list
-      const players = await fetchAllPlayers();
-      renderAllPlayers(players);
-      // Clear form fields
-      form.reset();
-    });
-  } catch (err) {
-    console.error("Uh oh, trouble rendering the new player form!", err);
-  }
+  const formHTML = `
+    <form id="new-player-form">
+      <h2>Add a New Player</h2>
+      <label for="name">Name:</label>
+      <input type="text" id="name" required  autocomplete='on'>
+      <label for="breed">Breed:</label>
+      <input type="text" id="breed" required autocomplete='on'>
+      <label for="status">Status:</label>
+      <input type="text" id="status" required  autocomplete='on'>
+      <label for="imageUrl">Image URL:</label>
+      <input type="text" id="imageUrl" required  autocomplete='on'>
+      <button type="submit">Add Player</button>
+    </form>
+  `;
+
+  container.innerHTML = formHTML;
+
+  const form = document.getElementById("new-player-form");
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+    const name = document.getElementById("name").value;
+    const breed = document.getElementById("breed").value;
+    const status = document.getElementById("status").value;
+    const imageUrl = document.getElementById("imageUrl").value;
+    const newPlayerObj = {
+      name,
+      breed,
+      status,
+      imageUrl,
+    };
+    await addNewPlayer(newPlayerObj);
+    const players = await fetchAllPlayers();
+    renderAllPlayers(players);
+    form.reset();
+  });
 };
 
 const init = async () => {
@@ -163,7 +145,7 @@ const init = async () => {
   //render all players
   const puppies = await fetchAllPlayers(); //fetch all players
   console.log("puppies", puppies.players);
-  renderAllPlayers(puppies); //render them
+  renderAllPlayers(puppies.players); //render them
 };
 
 init();
