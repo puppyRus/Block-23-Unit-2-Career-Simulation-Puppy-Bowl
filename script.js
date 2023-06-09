@@ -154,7 +154,12 @@ const renderNewPlayerForm = () => {
 };
 
 const init = async () => {
-  //render form
+    //render title
+    const title = document.createElement("h1"); // Create an h1 element
+    title.textContent = "Puppy Bowl"; // Set the title text
+    document.body.prepend(title); // Prepend the title to the body
+ 
+ //render form
   const newPlayerFormContainer = document.createElement("div"); //create a new element for the form
   newPlayerFormContainer.setAttribute("id", "new-player-form"); //set id
   playerContainer.appendChild(newPlayerFormContainer); //append it to the player container
