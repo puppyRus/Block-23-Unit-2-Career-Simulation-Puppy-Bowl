@@ -1,0 +1,102 @@
+/*Table of Content
+1.- Body
+2.- Players Container
+3.- Form
+4.- Cards
+5.- Player details
+6.- imges
+7.- buttons
+
+*/
+
+/*1.- Body*/
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.card-container {
+  perspective: 1000px;
+  width: 300px;
+  height: 400px;
+  position: relative;
+  margin: 20px;
+}
+
+.card {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  cursor: pointer;
+}
+
+.card:hover {
+  transform: rotateY(180deg);
+}
+
+.card-face {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  backface-visibility: hidden;
+}
+
+.card-front {
+    background: repeating-linear-gradient(
+        -45deg,
+        #FB4F14,
+        #FFA500 10%,
+        #000000 10%,
+        #000000 20%
+      );
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      border-radius: 10px;
+      color: whitesmoke;
+
+}
+
+.card-front img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    border: 2px solid white; /* Add a white border around the image */
+}   
+
+
+
+.card-back {
+  background-color: #d9d9d9;
+  color: #000;
+  transform: rotateY(180deg);
+  border: 12px solid;
+  border-image: linear-gradient(to right, #FB4F14, #FFA500, #000000,#FB4F14) 1;
+  border-radius: 10px;
+  position: relative;
+  background-size: 20px 20px;
+}
+
+/*2.- Players Container*/
+div#all-players-container{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: 10px;
+}
+/*3.- Forms*/
+
+/*4.- Cards*/
+
+/*5.- Player details*/
+
+/*6.- images*/
+
+/*7.- buttons*/
+
