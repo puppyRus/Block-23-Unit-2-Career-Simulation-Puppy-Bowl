@@ -26,6 +26,12 @@ const fetchAllPlayers = async () => {
 
 const fetchSinglePlayer = async (playerId) => {
   try {
+    //fecthing a single player 
+    const response = await fetch(`${APIURL}/players/${playerId}`);
+    const puppy = response.json
+    //logging the puppy id in the console
+    console.log("Puppy's Id = ", puppy);
+    return puppy;
   } catch (err) {
     console.error(`Oh no, trouble fetching player #${playerId}!`, err);
   }
@@ -40,13 +46,23 @@ const addNewPlayer = async (playerObj) => {
 
 const removePlayer = async (playerId) => {
   try {
-  } catch (err) {
+    //seting up a delete method for removing players
+    const response = await fetch(`${APIURL}/players/${playerId}`, {
+    method:'DELETE',
+  });
+  const puppy = response.json();
+  console.log("Removed puppy #", puppy);
+  //updating the api
+  fetchAllPlayers();
+  //reload the window
+  window.location.reload();
+} catch (err) {
+    }
     console.error(
       `Whoops, trouble removing player #${playerId} from the roster!`,
       err
     );
-  }
-};
+    };
 
 /**
  * It takes an array of player objects, loops through them, and creates a string of HTML for each
@@ -98,11 +114,21 @@ const renderAllPlayers = (playerList) => {
       `
       card.innerHTML = flipCard;
       playerContainer.appendChild(card);
-
+      const deleteButton = card.querySelector("#delete-button");
+      //add event listenet to the delete button
+      deleteButton.addEventListener("click", () => handleDeleteButton(e.id));
     });
 
   } catch (err) {
     console.error("Uh oh, trouble rendering players!", err);
+  }
+};
+
+const handleDeleteButton = async(playerId) => {
+  try {
+  await removePlayer(playerId);
+  } catch {
+    console.error("Uh oh trouble removing that player!");
   }
 };
 
