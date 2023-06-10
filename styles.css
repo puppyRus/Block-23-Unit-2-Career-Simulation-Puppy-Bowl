@@ -20,3 +20,22 @@
     justify-content: center;
     align-content: center;
 }
+
+#teams-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}div.team{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border: 1px solid black;
+    width: 150px;
+    background-color: gray;
+    padding: 10px;
+}ul{
+    list-style: none;
+
+}
+
+

@@ -1,3 +1,6 @@
+//
+const miniGame = document.querySelector('#teams-container') 
+
 //sets score to the players
 const getScore = () =>{ return Math.floor(Math.random()*10+2)};
 //console.log(getScore())
@@ -12,6 +15,36 @@ const fetchAllTeams = async () =>{
         console.error(error)
     }
     console.log("Teams:", teams);
+}
+
+//render all teams
+const renderAllTeams = (teams)=>{
+    console.log("teams:",teams)
+    //loop thru each team and get their name, id, players
+    teams.forEach( e =>{
+        console.log("team name:", e.name);    
+        //create html
+        const teamPlayers = document.createElement('div');
+        teamPlayers.setAttribute("class","team");
+        teamPlayers.setAttribute("id", `team-${e.id}`);
+        teamPlayers.innerHTML = `
+            <h3>Team</h3>
+            <h4>${e.name}</h4>
+            <ul class="players"></ul>
+            <button>Select</button>
+        `;
+        miniGame.appendChild(teamPlayers);
+        //render players
+        const players = e.players;
+        const playerList = teamPlayers.querySelector("ul.players");
+        players.forEach(element =>{
+            console.log("player name:", element.name);
+            const player = document.createElement('li');
+            player.innerText = `${element.name} - ${element.status}`;      
+            playerList.appendChild(player);      
+        });
+
+    })
 }
 
 
@@ -50,6 +83,9 @@ const init = async ()=>{
     const teams = response.data.teams;//get teams from data response
     //console.log("Teams:", teams);
     
+    //render teams
+    renderAllTeams(teams);
+
     //set teams
     const team1 = teams[0].players; //add players to teams
     const team2 = teams[1].players; //add players to team
