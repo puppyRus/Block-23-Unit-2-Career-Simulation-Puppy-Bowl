@@ -114,9 +114,14 @@ const renderAllPlayers = (playerList) => {
       `
       card.innerHTML = flipCard;
       playerContainer.appendChild(card);
+      
+      //add event listener to the delete button
       const deleteButton = card.querySelector("#delete-button");
-      //add event listenet to the delete button
       deleteButton.addEventListener("click", () => handleDeleteButton(e.id));
+
+      //add event listener to the detail button
+      const detailButton = card.querySelector("#detail-button");
+      detailButton.addEventListener("click", () => handleDetailButton(e.id));
     });
 
   } catch (err) {
@@ -124,11 +129,23 @@ const renderAllPlayers = (playerList) => {
   }
 };
 
+// adding event listener handler when the button is clicked
 const handleDeleteButton = async(playerId) => {
   try {
   await removePlayer(playerId);
+  console.log("Succesfully removed player ", playerId);
   } catch {
     console.error("Uh oh trouble removing that player!");
+  }
+};
+
+//adding event listener handler when the button is clicked
+const handleDetailButton = async(playerId) => {
+  try {
+    const playerDetails = await fetchSinglePlayer(playerId);
+    console.log("Player details: ", playerDetails);
+  } catch {
+    console.error("Uh oh trouble displaying details on this player!");
   }
 };
 
