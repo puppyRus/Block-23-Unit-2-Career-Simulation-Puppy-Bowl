@@ -120,7 +120,7 @@ const renderAllPlayers = (playerList) => {
       deleteButton.addEventListener("click", () => handleDeleteButton(e.id));
 
       //add event listener to the detail button
-      const detailButton = card.querySelector("#detail-button");
+      const detailButton = card.querySelector("#details-button");
       detailButton.addEventListener("click", () => handleDetailButton(e.id));
     });
 
