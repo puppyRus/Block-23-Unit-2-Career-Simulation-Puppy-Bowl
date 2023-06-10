@@ -153,7 +153,7 @@ const handleDetailButton = async(playerId) => {
  * It renders a form to the DOM, and when the form is submitted, it adds a new player to the database,
  * fetches all players from the database, and renders them to the DOM.
  */
-const renderNewPlayerForm = () => {
+const renderNewPlayerForm = (newPlayerFormContainer) => {
   try {
     const formHTML = `
       <h2>Add a New Player</h2>
