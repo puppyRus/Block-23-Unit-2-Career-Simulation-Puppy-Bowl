@@ -1,0 +1,156 @@
+/*Table of Content
+1.- Body
+2.- Players Container
+3.- Form
+4.- Cards
+5.- Player details
+6.- imges
+7.- buttons
+
+*/
+
+/*1.- Body*/
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/*2.- Players Container*/
+div#all-players-container{
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items: stretch;
+    gap: 10px;
+}
+/*3.- Forms*/
+
+/*4.- Cards*/
+.flip-card {
+  perspective: 1000px;
+  width: 300px;
+  height: 400px;
+  margin: 20px;
+}.flip-card-inner {
+  width: 100%;
+  height: 100%;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  cursor: pointer;
+  position: relative;
+}.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}.flip-card-front, .flip-card-back{
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  backface-visibility: hidden;
+}.card-front {
+    background: repeating-linear-gradient(
+        -45deg,
+        #FB4F14,
+        #FFA500 10%,
+        #000000 10%,
+        #000000 20%
+      );
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      border-radius: 10px;
+      color: whitesmoke;
+
+}.card-front img {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    border: 2px solid white; /* Add a white border around the image */
+}.flip-card-back {
+  background-color: #d9d9d9;
+  color: #000;
+  transform: rotateY(180deg);
+  border: 12px solid;
+  border-image: linear-gradient(to right, #FB4F14, #FFA500, #000000,#FB4F14) 1;
+  border-radius: 10px;
+  position: relative;
+  background-size: 20px 20px;
+  height: 400px;
+}
+
+/*5.- Player details*/
+
+/*6.- images*/
+
+/*7.- buttons*/
+
+/* CSS styles for text */
+h1 {
+  font-size: 48px;
+  text-align: center;
+  margin-bottom: 20px;
+  font-family: 'Roboto', sans-serif;
+  background: linear-gradient(45deg, #f700ff, #5ae9b9);
+}
+
+/* CSS styles for background */
+body {
+  background-color: #030000;
+}
+
+
+/* CSS styles for card container */
+#all-players-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+div#new-player-form {
+  /* Form styles */
+  width: 300px;
+  background-color: #ffffff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+  background: linear-gradient(45deg, #f700ff, #5ae9b9);
+  border: none;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-content: center;
+}
+
+div#new-player-form:hover {
+box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transform: scale(1.05);
+  background-color: #ff5722;
+}
+
+div#new-player-form h2 {
+  color: #ffffff;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+div#new-player-form label {
+  color: #ffffff;
+  font-size: 16px;
+  margin-bottom: 5px;
+}
+
+div#new-player-form input {
+  padding: 5px;
+  margin-bottom: 10px;
+}
+
+div#new-player-form button {
+  padding: 10px 20px;
+  background-color: #ffffff;
+  color: #f700ff;
+}
+

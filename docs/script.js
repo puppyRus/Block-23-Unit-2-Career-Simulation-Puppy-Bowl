@@ -3,7 +3,6 @@ import Card from "./cardClass.js";
 
 const playerContainer = document.getElementById("all-players-container");
 
-
 // Add your cohort name to the cohortName variable below, replacing the 'COHORT-NAME' placeholder
 const cohortName = "2302-acc-pt-d";
 // Use the APIURL variable for fetch requests
@@ -15,12 +14,11 @@ const APIURL = `https://fsa-puppy-bowl.herokuapp.com/api/${cohortName}`;
  */
 const fetchAllPlayers = async () => {
   try {
-      const response = await fetch(`${APIURL}/players`);
-      console.log("response", response);
-      const puppies = await response.json();
-      console.log("puppies", puppies)
-      return puppies.data;
-
+    const response = await fetch(`${APIURL}/players`);
+    console.log("response", response);
+    const puppies = await response.json();
+    console.log("puppies", puppies);
+    return puppies.data;
   } catch (err) {
     console.error("Uh oh, trouble fetching players!", err);
   }
@@ -28,6 +26,12 @@ const fetchAllPlayers = async () => {
 
 const fetchSinglePlayer = async (playerId) => {
   try {
+    //fecthing a single player 
+    const response = await fetch(`${APIURL}/players/${playerId}`);
+    const puppy = response.json
+    //logging the puppy id in the console
+    console.log("Puppy's Id = ", puppy);
+    return puppy;
   } catch (err) {
     console.error(`Oh no, trouble fetching player #${playerId}!`, err);
   }
@@ -42,13 +46,23 @@ const addNewPlayer = async (playerObj) => {
 
 const removePlayer = async (playerId) => {
   try {
-  } catch (err) {
+    //seting up a delete method for removing players
+    const response = await fetch(`${APIURL}/players/${playerId}`, {
+    method:'DELETE',
+  });
+  const puppy = response.json();
+  console.log("Removed puppy #", puppy);
+  //updating the api
+  fetchAllPlayers();
+  //reload the window
+  window.location.reload();
+} catch (err) {
+    }
     console.error(
       `Whoops, trouble removing player #${playerId} from the roster!`,
       err
     );
-  }
-};
+    };
 
 /**
  * It takes an array of player objects, loops through them, and creates a string of HTML for each
@@ -72,23 +86,66 @@ const removePlayer = async (playerId) => {
  */
 const renderAllPlayers = (playerList) => {
   try {
-    //for each element on the array we use the class to
-    //create a new card and use the method to render the puppies
-    playerList.forEach((element) => {
-      //create a card
-      const puppyCard = new Card(
-        element.id,
-        element.name,
-        element.breed,
-        element.imageUrl,
-        element.createdAt
-      );
-      console.log("Puppy html", puppyCard.createCard());
+    //render all cards
+    console.log("players list:",playerList);
+    const players = playerList.players;
+    console.log("players:", players);
 
-      playerContainer.appendChild(puppyCard.createCard());
+    //we loop thru each player and get their info
+    players.forEach(e => {
+      console.log("hello", e.name);
+      const card = document.createElement("div");
+      card.setAttribute("class","flip-card");//set class
+      card.setAttribute("id",`card-${e.id}`);//set id
+      const flipCard = `
+        <div class="flip-card-inner">
+          <div class="flip-card-front">
+            <img src="${e.imageUrl}" alt="${e.breed} puppy" style="width:300px;height:400px;">
+          </div>
+          <div class="flip-card-back">
+            <h1>${e.name}</h1> 
+            <p>${e.breed}</p> 
+            <p>${e.status}</p>
+            <p>${e.createdAt}</p>
+            <button id="details-button">Details</button>
+            <button id="delete-button">Delete</button>
+          </div>
+        </div>
+      `
+      card.innerHTML = flipCard;
+      playerContainer.appendChild(card);
+      
+      //add event listener to the delete button
+      const deleteButton = card.querySelector("#delete-button");
+      deleteButton.addEventListener("click", () => handleDeleteButton(e.id));
+
+      //add event listener to the detail button
+      const detailButton = card.querySelector("#details-button");
+      detailButton.addEventListener("click", () => handleDetailButton(e.id));
     });
+
   } catch (err) {
     console.error("Uh oh, trouble rendering players!", err);
+  }
+};
+
+// adding event listener handler when the button is clicked
+const handleDeleteButton = async(playerId) => {
+  try {
+  await removePlayer(playerId);
+  console.log("Succesfully removed player ", playerId);
+  } catch {
+    console.error("Uh oh trouble removing that player!");
+  }
+};
+
+//adding event listener handler when the button is clicked
+const handleDetailButton = async(playerId) => {
+  try {
+    const playerDetails = await fetchSinglePlayer(playerId);
+    console.log("Player details: ", playerDetails);
+  } catch {
+    console.error("Uh oh trouble displaying details on this player!");
   }
 };
 
@@ -96,11 +153,11 @@ const renderAllPlayers = (playerList) => {
  * It renders a form to the DOM, and when the form is submitted, it adds a new player to the database,
  * fetches all players from the database, and renders them to the DOM.
  */
-const renderNewPlayerForm = (e) => {
+const renderNewPlayerForm = (newPlayerFormContainer) => {
   try {
     const formHTML = `
+      <h2>Add a New Player</h2>
       <form id="new-player-form">
-        <h2>Add a New Player</h2>
         <label for="name">Name:</label>
         <input type="text" id="name" required autocomplete="on">
         <label for="breed">Breed:</label>
@@ -112,16 +169,9 @@ const renderNewPlayerForm = (e) => {
         <button type="submit">Add Player</button>
       </form>
     `;
+    newPlayerFormContainer.innerHTML = formHTML;
 
-    e.innerHTML = `
-    <img src="/pngegg.png" alt="add sign" width="50px">
-    `
-    e.addEventListener('click',()=>{
-      console.log("add a new player")
-      e.innerHTML = formHTML;
-    })
-
-    const form = e.querySelector("#new-player-form");
+    const form = newPlayerFormContainer.querySelector("#new-player-form");
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
       const name = document.getElementById("name").value;
@@ -147,16 +197,21 @@ const renderNewPlayerForm = (e) => {
 };
 
 const init = async () => {
-  //render form
-  const newPlayerFormContainer = document.createElement("div");//create a new element for the form
-  newPlayerFormContainer.setAttribute("id", "new-player-form");//set id
-  playerContainer.appendChild(newPlayerFormContainer);//append it to the player container
+    //render title
+    const title = document.createElement("h1"); // Create an h1 element
+    title.textContent = "Puppy Bowl"; // Set the title text
+    document.body.prepend(title); // Prepend the title to the body
+ 
+ //render form
+  const newPlayerFormContainer = document.createElement("div"); //create a new element for the form
+  newPlayerFormContainer.setAttribute("id", "new-player-form"); //set id
+  playerContainer.appendChild(newPlayerFormContainer); //append it to the player container
   renderNewPlayerForm(newPlayerFormContainer); //render form
-  
+
   //render all players
   const puppies = await fetchAllPlayers(); //fetch all players
   console.log("puppies", puppies.players);
-  renderAllPlayers(puppies.players); //render them
+  renderAllPlayers(puppies); //render them
 };
 
 init();
