@@ -38,9 +38,9 @@ const fetchSinglePlayer = async (playerId) => {
 };
 
 const addNewPlayer = async (playerObj) => {
-  try {
+
     const newPlayer = {
-      id: playerObj.id,
+      name: playerObj.name,
       breed: playerObj.breed,
       status: playerObj.status,
       imageUrl: playerObj.imageUrl,
@@ -49,7 +49,7 @@ const addNewPlayer = async (playerObj) => {
     console.log("New Player: ", newPlayer);
   
     try {
-      const response = await fetch(`${API_URL}/Players/${playerId}`, {
+      const response = await fetch(`${APIURL}/players`, {
         method: 'POST',
         headers: {
           'content-type': 'application/JSON', 
@@ -62,7 +62,7 @@ const addNewPlayer = async (playerObj) => {
       console.error("Oops, something went wrong with adding that player!", err);
     }
   }
-};
+
 
 const removePlayer = async (playerId) => {
   try {
@@ -204,11 +204,11 @@ const renderNewPlayerForm = (newPlayerFormContainer) => {
         status,
         imageUrl,
       };
-      await addNewPlayer(newPlayerObj);
-      // Refresh player list
-      const players = await fetchAllPlayers();
-      renderAllPlayers(players);
-      // Clear form fields
+      addNewPlayer(newPlayerObj);
+      // // Refresh player list
+      // const players = await fetchAllPlayers();   |
+      // renderAllPlayers(players);                 |-->
+      // Clear form fields                          |
       form.reset();
     });
   } catch (err) {
