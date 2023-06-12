@@ -6,6 +6,7 @@
 5.- Player details
 6.- imges
 7.- buttons
+8.- mini-game
 
 */
 
@@ -111,6 +112,24 @@ div#all-players-container{
 
 /*7.- buttons*/
 
+
+/*8.- mini game*/
+#mini-game{
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+}div.team{
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border: 1px solid black;
+  width: 150px;
+  background-color: gray;
+  padding: 10px;
+}ul{
+  list-style: none;
+
+}
 /* CSS styles for text */
 h1 {
   font-size: 48px;
