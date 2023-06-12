@@ -1,7 +1,7 @@
 # Puppy-Bowl
 ## Assignment
 Create a mini-game that allows you to create teams of puppies to compete in a Puppy Bowl.
-Use the API to access the current players. Then render all the puppies and their teams.
+Use the API to access the current players. Then render all the puppies and their team rosters.
 
 ## Solution
 We created a deck for all the competitors. Each one created by a Class that utilizes the data fetch from the API. We also created a form that allows you to create your own puppy and add it to a team to compete. 
