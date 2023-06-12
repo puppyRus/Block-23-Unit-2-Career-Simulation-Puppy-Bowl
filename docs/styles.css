@@ -11,6 +11,7 @@
 */
 
 /*1.- Body*/
+body {background-color: #030000;}/* CSS styles for background */
 * {
     padding: 0;
     margin: 0;
@@ -21,8 +22,10 @@
   margin-bottom: 20px;
   font-family: 'Roboto', sans-serif;
   background: linear-gradient(45deg, #f700ff, #5ae9b9);
-}body {/* CSS styles for background */
-  background-color: #030000;
+}h2{
+  background: linear-gradient(45deg, #f700ff, #5ae9b9);
+  text-align: center;
+  margin-bottom: 20px;
 }
 
 /*2.- Players Container*/
@@ -155,12 +158,25 @@ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 /*7.- buttons*/
+button#start{
+  width: 200px;
+  background-color: #f700ff;
 
+}
 
 /*8.- mini game*/
+#teams-container{
+  display: flex;
+  justify-content: center;
+  flex-flow: column wrap;
+  align-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
 #mini-game{
   display: flex;
   flex-direction: row;
+  justify-content: center;
   gap: 30px;
 }div.team{
   display: flex;
@@ -168,7 +184,7 @@ box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   gap: 5px;
   border: 1px solid black;
   width: 150px;
-  background-color: gray;
+  background: linear-gradient(45deg, #f700ff, #5ae9b9);
   padding: 10px;
 }ul{
   list-style: none;

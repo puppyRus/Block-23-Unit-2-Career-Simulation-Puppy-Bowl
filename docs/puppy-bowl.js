@@ -20,9 +20,9 @@ const fetchAllTeams = async () =>{
 const renderAllTeams = (teams)=>{
     console.log("teams:",teams)
     //
-    const teamsTitle = document.createElement("h2");
-    teamsTitle.innerText = "Teams"
-    teamsContainer.appendChild(teamsTitle);
+    // const teamsTitle = document.createElement("h2");
+    // teamsTitle.innerText = "Teams"
+    // teamsContainer.appendChild(teamsTitle);
     const miniGame = document.createElement("div");
     miniGame.setAttribute("id","mini-game")
     teamsContainer.appendChild(miniGame);
@@ -51,8 +51,9 @@ const renderAllTeams = (teams)=>{
     })
     const startButton = document.createElement("button");
     startButton.innerText = "Start Bowl"
-    startButton.setAttribute("onclick",`play()`)
+    startButton.setAttribute("onclick",`play()`);
     teamsContainer.appendChild(startButton);
+    startButton.setAttribute("id", "start");
 }
 
 //play 
