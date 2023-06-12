@@ -14,34 +14,38 @@ export default class Card{
 //create a method that will create our html elements
 Card.prototype.createCard = function(){
     try {
-        const card = document.createElement("div");
-        card.setAttribute("class", "card")
-        card.setAttribute("id", `puppy-${this.id}`)
-        card.setAttribute("min-height", "400px")
-        card.innerHTML = `
-            <img src=${this.imgUrl} alt="${this.breed} puppy" height="400px">
+        const cardDetails = document.createElement("div");
+        cardDetails.setAttribute("class", "card-details");
+        cardDetails.setAttribute("id", `puppy-${this.id}`);
+        cardDetails.setAttribute("width", "800px");
+        cardDetails.innerHTML = `
+            <div class="details-sec" id="img">
+                <img src=${this.imgUrl} alt="${this.breed} puppy">
+            </div>
+            <div class="details-sec">
+                <h3>Team </h3>
+                <ul>
+                    <li>Player1<li>
+                </ul>
+            </div>
+            <div class="details-sec">
+                <h3>${this.puppyName}</h3>
+                <p>${this.breed}</p>
+                <p>${this.birth}</p>
+            </div>
+            <div class="details-sec">
+            <button class="remove-button" data-id=${this.id} id=remove-${this.id}"">Close</button>
+            </div>
 
-        `
-        card.addEventListener('click', event =>{
-            console.log("Back of Card");
-            card.innerHTML = `
-            <h2>${this.puppyName}</h2>
-            <p>${this.breed}</p>
-            <p>${this.birth}</p>
-            <button class="remove-button" data-id=${this.id}>Remove</button>
             `
-        });
-        card.addEventListener('mouseout', event =>{
-            console.log("Front of Card");
-            card.innerHTML = `
-            <img src=${this.imgUrl} alt="${this.breed} puppy" height="400px">
-
-        `
-        });
-        return card;
+            //acceses the remove butto
+        return cardDetails;
     } catch (err) {
       console.error("Uh oh, trouble rendering the new player form!", err);
     }
 }
+
+
+
 
 
