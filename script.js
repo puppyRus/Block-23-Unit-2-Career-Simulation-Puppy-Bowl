@@ -28,7 +28,7 @@ const fetchSinglePlayer = async (playerId) => {
   try {
     //fecthing a single player 
     const response = await fetch(`${APIURL}/players/${playerId}`);
-    const puppy = response.json
+    const puppy = response.json();
     //logging the puppy id in the console
     console.log("Puppy's Id = ", puppy);
     return puppy;
@@ -38,11 +38,36 @@ const fetchSinglePlayer = async (playerId) => {
 };
 
 const addNewPlayer = async (playerObj) => {
+  
+  //create a new player object 
+  const newPlayer = {
+    id: playerObj.id,
+    name: playerObj.name, 
+    breed: playerObj.breed,
+    status: playerObj.status,
+    imageUrl: playerObj.imageUrl,
+  };
+
+  console.log("New Player:", newPlayer);
+
+  //posting new pup to the api method 
   try {
-  } catch (err) {
+    const response = await fetch (`${APIURL}/players`, {
+      method: "POST",
+      headers: {
+        'content-type': 'application/JSON',
+      },
+      body: JSON.stringify(newPlayer),
+      });
+      const addedPlayer = response.json();
+      console.log("New Player Added: ", addedPlayer);
+      return addedPlayer;
+    } catch (err) {
     console.error("Oops, something went wrong with adding that player!", err);
   }
-};
+
+  console.log(`New player added: ${newPlayer.name} (ID: ${newPlayer.id})`);
+}
 
 const removePlayer = async (playerId) => {
   try {
@@ -120,7 +145,7 @@ const renderAllPlayers = (playerList) => {
       deleteButton.addEventListener("click", () => handleDeleteButton(e.id));
 
       //add event listener to the detail button
-      const detailButton = card.querySelector("#detail-button");
+      const detailButton = card.querySelector("#details-button");
       detailButton.addEventListener("click", () => handleDetailButton(e.id));
     });
 
@@ -153,7 +178,7 @@ const handleDetailButton = async(playerId) => {
  * It renders a form to the DOM, and when the form is submitted, it adds a new player to the database,
  * fetches all players from the database, and renders them to the DOM.
  */
-const renderNewPlayerForm = () => {
+const renderNewPlayerForm = (newPlayerFormContainer) => {
   try {
     const formHTML = `
       <h2>Add a New Player</h2>
@@ -174,10 +199,10 @@ const renderNewPlayerForm = () => {
     const form = newPlayerFormContainer.querySelector("#new-player-form");
     form.addEventListener("submit", async (event) => {
       event.preventDefault();
-      const name = document.getElementById("name").value;
-      const breed = document.getElementById("breed").value;
-      const status = document.getElementById("status").value;
-      const imageUrl = document.getElementById("imageUrl").value;
+      const name = document.getElementById("name");
+      const breed = document.getElementById("breed");
+      const status = document.getElementById("status");
+      const imageUrl = document.getElementById("imageUrl");
       const newPlayerObj = {
         name,
         breed,
