@@ -37,7 +37,6 @@ const renderAllTeams = (teams)=>{
             <h3>Team</h3>
             <h4>${e.name}</h4>
             <ul class="players"></ul>
-            <button>Select</button>
         `;
         miniGame.appendChild(teamPlayers);
         //render players
