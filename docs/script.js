@@ -28,10 +28,10 @@ const fetchSinglePlayer = async (playerId) => {
   try {
     //fecthing a single player 
     const response = await fetch(`${APIURL}/players/${playerId}`);
-    const puppy = response.json
+    const puppy = await response.json();
     //logging the puppy id in the console
     console.log("Puppy's Id = ", puppy);
-    return puppy;
+    return puppy.data;
   } catch (err) {
     console.error(`Oh no, trouble fetching player #${playerId}!`, err);
   }
@@ -142,8 +142,27 @@ const handleDeleteButton = async(playerId) => {
 //adding event listener handler when the button is clicked
 const handleDetailButton = async(playerId) => {
   try {
-    const playerDetails = await fetchSinglePlayer(playerId);
-    console.log("Player details: ", playerDetails);
+    //fetch single player info
+    const puppy = await fetchSinglePlayer(playerId);
+    console.log("Player ", puppy);
+    const player = puppy.player;//get player information
+    //create a class
+    const playerDetails = new Card(player.id, player.name, player.breed, player.imageUrl, player.createdAt, player.status, player.team);
+    console.log("player details:", playerDetails);
+    const details = playerDetails.createCard();//use method to display details
+    console.log("details", details);
+
+    //get body
+    const body = document.querySelector("body");
+    body.append(details);//append details to body
+    //
+    const removeBtn = document.querySelector(`remove-${player.id}`);
+    console.log("remove bnt:", removeBtn);
+    removeBtn,addEventListener('click', ()=>{
+      console.log("close");
+      details.remove();
+    });
+
   } catch {
     console.error("Uh oh trouble displaying details on this player!");
   }
@@ -212,6 +231,8 @@ const init = async () => {
   const puppies = await fetchAllPlayers(); //fetch all players
   console.log("puppies", puppies.players);
   renderAllPlayers(puppies); //render them
+
+  //
 };
 
 init();

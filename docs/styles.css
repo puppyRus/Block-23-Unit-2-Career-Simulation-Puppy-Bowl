@@ -81,8 +81,33 @@ div#all-players-container{
 }
 
 /*5.- Player details*/
+.card-details{
+  display: flex;
+  flex-flow: row wrap;
+  position:fixed;
+  top: 30px;
+  left:200px;
+  background-color: wheat;
+  z-index: 1;
+  border: 3px solid black;
+  width: 75%;
+  height: 75%;
+}.details-sec{
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+}.details-sec#img{
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  align-content: center;
+  
+}
 
 /*6.- images*/
+.details-sec>img{
+  width: 50%;
+}
 
 /*7.- buttons*/
 
